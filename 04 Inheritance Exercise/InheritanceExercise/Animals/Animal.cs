@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Animals
 {
-    public class Animal
+     class Animal
     {
         public Animal(string name, int age, string gender)
         {
