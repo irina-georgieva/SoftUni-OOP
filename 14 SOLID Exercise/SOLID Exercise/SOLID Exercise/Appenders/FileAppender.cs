@@ -1,4 +1,6 @@
 ﻿using SOLID_Exercise.Layouts;
+using SOLID_Exercise.LogFiles;
+using SOLID_Exercise.ReportLevel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,22 +8,33 @@ using System.Text;
 
 namespace SOLID_Exercise.Appenders
 {
-    public class FileAppender : IAppender
+    public class FileAppender : Appender
     {
         private const string FilePath = "../../../Output/result.txt";
-        public FileAppender(ILayout layout)
+        
+        public FileAppender(ILayout layout, ILogFile file)
+            :base(layout)
         {
-            this.Layout = layout;
+            this.LogFile = file;
         }
+        public ILogFile LogFile { get; }
 
         public static string FilePath1 => FilePath;
 
-        public ILayout Layout { get; }
-
-        public void Append(string datetime, string reportLevel, string message)
+        public override void Append(string datetime, LogLevel reportLevel, string message)
         {
             string appendMessage = string.Format(this.Layout.Format, datetime, reportLevel, message);
-            File.AppendAllText(FilePath, appendMessage);
+
+            LogFile.Write(appendMessage);
+
+            this.Count++;
+
+            File.AppendAllText(FilePath, appendMessage + Environment.NewLine);
         }
+
+        public override string GetAppenderInfo()
+        
+            => $"{base.GetAppenderInfo()}, File size: {this.LogFile.Size}";
+        
     }
 }

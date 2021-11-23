@@ -7,7 +7,9 @@ namespace SOLID_Exercise.Loggers
 {
     public interface ILogger
     {
-        public IAppender Appender { get; }
+        public List<IAppender> Appenders { get; }
+
+        string GetLoggerInfo();
 
         public void Info(string dateTime, string message);
         public void Warning(string dateTime, string message);
