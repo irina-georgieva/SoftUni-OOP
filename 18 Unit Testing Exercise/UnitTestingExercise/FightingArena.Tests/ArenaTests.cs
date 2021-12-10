@@ -7,6 +7,7 @@ namespace FightingArena.Tests
     [TestFixture]
     public class ArenaTests
     {
+
         [SetUp]
         public void Setup()
         {
